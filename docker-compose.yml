@@ -3,7 +3,7 @@ services:
     image: hereicomapi
     build:
       context: .
-      dockerfile: dev.dockerfile
+      dockerfile: Dockerfile.dev
     volumes: 
       - ./src:/code/src
     ports:

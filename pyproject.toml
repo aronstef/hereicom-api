@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "hereicom-api"
+version = "0.1.0"
+description = ""
+authors = ["Aron Stefánsson <aronstef@users.noreply.github.com>"]
+license = "GPL-3.0-only"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = {extras = ["all"], version = "^0.70.0"}
+gunicorn = "^20.1.0"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.11.1"
+pytest = "^6.2.5"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

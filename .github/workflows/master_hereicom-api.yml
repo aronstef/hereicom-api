@@ -18,17 +18,19 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up Python version
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: '3.8'
 
       - name: Create and start virtual environment
+        with:
+          poetry-version: 1.1.11
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          poetry install --no-root
+          poetry shell
       
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Export requrements.txt
+        run: poetry export -f requirements.txt --output src/requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
@@ -36,9 +38,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: python-app
-          path: |
-            . 
-            !venv/
+          path: src
 
   deploy:
     runs-on: ubuntu-latest

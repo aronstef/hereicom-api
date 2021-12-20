@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.engine import Engine
 
 import crud, schemas
 from core.config import settings
@@ -9,7 +10,7 @@ from db import base  # noqa: F401
 # for more details: https://github.com/tiangolo/full-stack-fastapi-postgresql/issues/28
 
 
-def init_db(session: Session, engine) -> None:
+def init_db(session: Session, engine: Engine) -> None:
     # Tables should be created with Alembic migrations
     # But if you don't want to use migrations, create
     # the tables un-commenting the next line

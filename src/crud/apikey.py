@@ -4,14 +4,14 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from crud.base import CRUDBase
-from models.item import Item
-from schemas.item import ItemCreate, ItemUpdate
+from models.apikey import ApiKey
+from schemas.apikey import ApiKeyCreate, ApiKeyUpdate
 
 
-class CRUDItem(CRUDBase[Item, ItemCreate, ItemUpdate]):
+class CRUDApiKey(CRUDBase[ApiKey, ApiKeyCreate, ApiKeyUpdate]):
     def create_with_owner(
-        self, db: Session, *, obj_in: ItemCreate, owner_id: int
-    ) -> Item:
+        self, db: Session, *, obj_in: ApiKeyCreate, owner_id: int
+    ) -> ApiKey:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(**obj_in_data, owner_id=owner_id)
         db.add(db_obj)
@@ -21,14 +21,17 @@ class CRUDItem(CRUDBase[Item, ItemCreate, ItemUpdate]):
 
     def get_multi_by_owner(
         self, db: Session, *, owner_id: int, skip: int = 0, limit: int = 100
-    ) -> List[Item]:
+    ) -> List[ApiKey]:
         return (
             db.query(self.model)
-            .filter(Item.owner_id == owner_id)
+            .filter(ApiKey.owner_id == owner_id)
             .offset(skip)
             .limit(limit)
             .all()
         )
+    
+    def get_from_apikey(self, db: Session, *, apikey: str) -> ApiKey:
+        return db.query(self.model).filter(ApiKey.apikey == apikey).one_or_none()
 
 
-item = CRUDItem(Item)
+apikey = CRUDApiKey(ApiKey)

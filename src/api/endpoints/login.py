@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import Any
 
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
@@ -9,7 +9,6 @@ import crud, models, schemas
 from api import deps
 from core import security
 from core.config import settings
-from core.security import get_password_hash
 
 router = APIRouter()
 

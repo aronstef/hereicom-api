@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Any, Union
+import secrets
 
 from jose import jwt
 from passlib.context import CryptContext
@@ -32,3 +33,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
+
+
+def create_api_key() -> str:
+    return secrets.token_urlsafe(32)

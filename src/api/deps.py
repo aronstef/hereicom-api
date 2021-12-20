@@ -1,7 +1,8 @@
 from typing import Generator
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Security
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.security.api_key import APIKeyQuery
 from jose import jwt
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
@@ -14,8 +15,10 @@ from core.config import settings
 from db.session import SessionLocal
 
 reusable_oauth2 = OAuth2PasswordBearer(
-    tokenUrl=f"/login/access-token"
+    tokenUrl=f"/api/login/access-token"
 )
+
+api_key_query = APIKeyQuery(name="access_token")
 
 
 def get_db() -> Generator:
@@ -54,10 +57,19 @@ def get_current_active_user(
 
 
 def get_current_active_superuser(
-    current_user: models.User = Depends(get_current_user),
+    current_user: models.User = Depends(get_current_active_user),
 ) -> models.User:
     if not crud.user.is_superuser(current_user):
         raise HTTPException(
             status_code=400, detail="The user doesn't have enough privileges"
         )
     return current_user
+
+def get_api_key(
+    db: Session = Depends(get_db),
+    api_key_query: str = Security(api_key_query),
+) -> str:
+    api_key = crud.apikey.get_from_apikey(db, apikey=api_key_query)
+    if not api_key:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid APIKey")
+    return api_key

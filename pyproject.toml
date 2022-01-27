@@ -7,16 +7,16 @@ license = "GPL-3.0-only"
 
 [tool.poetry.dependencies]
 python = "~3.8"
-fastapi = {extras = ["all"], version = "^0.70.0"}
-gunicorn = "^20.1.0"
-SQLAlchemy = "^1.4.28"
-psycopg2 = "^2.9.2"
-python-jose = {extras = ["cryptography"], version = "^3.3.0"}
-passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+fastapi = {extras = ["all"], version = "*"}
+gunicorn = "*"
+SQLAlchemy = "*"
+psycopg2 = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+passlib = {extras = ["bcrypt"], version = "*"}
 
 [tool.poetry.dev-dependencies]
-pylint = "^2.11.1"
-pytest = "^6.2.5"
+pylint = "*"
+pytest = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
